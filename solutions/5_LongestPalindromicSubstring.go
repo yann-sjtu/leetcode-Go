@@ -82,41 +82,40 @@ func longestPalindromeV3(s string) string {
 	if l < 2 {
 		return s
 	}
-	s = preProcess(s)
+	byteS := preProcess(s)
 
 	P := make([]int, 2*l+3)
 	Center := 1
 	Right := 1
 	MaxR := 0
-	P[0] = 1
+	LongestCenter := 1
 	P[1] = 1
 	for i:=2;i<=2*l+1;i++ {
-		mirror_i := 2 * Center - i
-		if mirror_i <= 0 {
-			for r:=0;i-r>0&&i+r<2*l+2;r++ {
-				if s[i-r] != s[i+r] {
-					P[i] = r-1
-				}
-				if r
+		if i < Right {
+			mirrorI := 2*Center - i
+			if P[mirrorI] < Right-i {
+				P[i] = P[mirrorI]
+			} else {
+				P[i] = calcR(byteS, i, Right-i)
+				Center = i
+				Right = i + P[i]
 			}
+		} else {
+			P[i] = calcR(byteS, i, 0)
 		}
-		if mirror_i > 0 && P[mirror_i] < Right - i {
-			P[i] = P[mirror_i]
-		}
-
-
-		for r:=1;i-r>=0&&i+r<2*l+3;r++{
-			if s[i-r] == s[i+r] {
-				P[i] = 2*r+1
-			}
+		if P[i] > MaxR {
+			MaxR = P[i]
+			LongestCenter = i
 		}
 	}
-
-
-
+	result := make([]byte, 0, MaxR)
+	for i := LongestCenter-MaxR+1; i< LongestCenter + MaxR; i+=2 {
+		result = append(result, byteS[i])
+	}
+	return string(result)
 }
 
-func preProcess(s string) string {
+func preProcess(s string) []byte {
 	l := len(s)
 	startSymbol := []byte("^")
 	endSymbol := []byte("$")
@@ -130,7 +129,18 @@ func preProcess(s string) string {
 			ss = append(ss, intervalSymbol...)
 		}
 	}
-	ss = append(ss, endSymbol...)
-	return string(ss)
+	return append(ss, endSymbol...)
+
+}
+
+func calcR(s []byte, i, minR int) int {
+	for r:= minR;i-r>0&&i+r<2*len(s)+2;r++{
+		if s[i-r-1] == s[i+r+1] {
+			minR++
+		} else {
+			break
+		}
+	}
+	return minR
 }
 
