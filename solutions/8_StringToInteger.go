@@ -19,22 +19,19 @@ func myAtoi(str string) int {
 		byteS = byteS[1:]
 	}
 	for _, c := range byteS {
-		if c >= num0 && c <= num9 {
-			num = int32(c - num0)
-			temp = myInt32*10 - num
-			if myInt32 != (temp+num)/10 || temp > myInt32 {
-				//overflow
-				if symbol == minus {
-					maxInt32++
-					return int(maxInt32)
-				} else {
-					return int(maxInt32)
-				}
-			}
-			myInt32 = temp
-		} else {
+		if c < num0 || c > num9 {
 			break
 		}
+		num = int32(c - num0)
+		temp = myInt32*10 - num
+		if myInt32 != (temp+num)/10 || temp > myInt32 {
+			//overflow
+			if symbol == minus {
+				return int(maxInt32 + 1)
+			}
+			return int(maxInt32)
+		}
+		myInt32 = temp
 	}
 	if symbol != minus {
 		if myInt32 == maxInt32+1 {
