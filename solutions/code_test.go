@@ -6,9 +6,9 @@ import (
 )
 
 func TestLeetcode(t *testing.T) {
-	s := "cb1bc"
-	res := isPalindrome(s)
-	fmt.Println(res)
-	res2 := longestPalindrome(s)
-	fmt.Println(res2)
+	//s := "1xx222"
+	//res := longestPalindromeV3(s)
+	n := 111
+	nn := isPalindromeV2(n)
+	fmt.Println(nn)
 }
