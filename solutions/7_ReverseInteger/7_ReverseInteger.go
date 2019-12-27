@@ -1,4 +1,4 @@
-package solutions
+package __ReverseInteger
 
 func reverse(x int) int {
 	if x < 10 && x > -10 {

@@ -1,4 +1,4 @@
-package solutions
+package __MedianOfTwoSortedArrays
 
 /*
 解题思路：

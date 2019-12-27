@@ -1,4 +1,4 @@
-package solutions
+package __TwoSum
 
 //a really brute force way
 func twoSum(nums []int, target int) []int {

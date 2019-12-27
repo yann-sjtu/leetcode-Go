@@ -1,4 +1,4 @@
-package solutions
+package __StringToInteger
 
 func myAtoi(str string) int {
 	byteS := trimSpace(str)

@@ -1,4 +1,4 @@
-package solutions
+package __LongestSubstringWithoutRepeatingCharacters
 
 func lengthOfLongestSubstring(s string) int {
 	var start, max int

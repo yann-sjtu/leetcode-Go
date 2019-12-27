@@ -1,4 +1,4 @@
-package solutions
+package __LongestPalindromicSubstring
 
 //中心扩展法
 func longestPalindrome(s string) string {

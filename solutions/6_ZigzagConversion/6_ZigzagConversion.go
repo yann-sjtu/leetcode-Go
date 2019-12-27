@@ -1,4 +1,4 @@
-package solutions
+package __ZigzagConversion
 
 func convert(s string, numRows int) string {
 	l := len(s)
