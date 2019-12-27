@@ -1,26 +1,33 @@
 package _5_ThreeSum
 
-import (
-	"fmt"
-	"testing"
-)
-
 func threeSum(nums []int) [][]int {
 	l := len(nums)
 	if l < 3 {
 		return nil
 	}
-	m := make(map[int]struct{})
-	res := make([][]int, 0)
-	for i := 0; i < l; i++ {
-		if _, ok := m[nums[i]]; ok {
+	quickSort(nums)
+	var res [][]int
+	for i := range nums[:l-2] {
+		if nums[i] > 0 {
+			break
+		}
+		if i > 0 && nums[i] == nums[i-1] {
 			continue
 		}
-		m[nums[i]] = struct{}{}
-		for j := i + 1; j < l; j++ {
-			for k := j + 1; k < l; k++ {
-				if nums[i]+nums[j]+nums[k] == 0 {
-					res = append(res, sort(nums[i], nums[j], nums[k]))
+		for left, right := i+1, l-1; left < right; {
+			if nums[i]+nums[left]+nums[right] < 0 {
+				left++
+			} else if nums[i]+nums[left]+nums[right] > 0 {
+				right--
+			} else {
+				res = append(res, []int{nums[i], nums[left], nums[right]})
+				left++
+				right--
+				for left < right && nums[left] == nums[left-1] {
+					left++
+				}
+				for right > left && nums[right] == nums[right+1] {
+					right--
 				}
 			}
 		}
@@ -28,26 +35,27 @@ func threeSum(nums []int) [][]int {
 	return res
 }
 
-func sort(num1, num2, num3 int) []int {
-	nums := make([]int, 0, 3)
-	if num1 < num2 {
-		nums = append(nums, num1, num2)
-	} else {
-		nums = append(nums, num2, num1)
+func quickSort(nums []int) {
+	l := len(nums)
+	if l < 2 {
+		return
 	}
 
-	if num3 < num1 {
-		nums = append([]int{num3}, nums...)
-	} else if num3 > num2 {
-		nums = append(nums, num3)
-	} else {
-		nums = []int{num1, num3, num2}
+	head, tail := 1, l-1
+	privot := nums[0]
+	for head < tail {
+		for head < tail && nums[head] < privot {
+			head++
+		}
+		for tail > head && nums[tail] >= privot {
+			tail--
+		}
+		nums[head], nums[tail] = nums[tail], nums[head]
 	}
-	return nums
-}
+	if nums[tail] < privot {
+		nums[0], nums[tail] = nums[tail], nums[0]
+	}
 
-func Test_(t *testing.T) {
-	nums := []int{-1, 0, 1, 2, -1, -4}
-	res := threeSum(nums)
-	fmt.Println(res)
+	quickSort(nums[:head])
+	quickSort(nums[tail:])
 }
