@@ -7,7 +7,7 @@ import (
 
 func searchInsert(nums []int, target int) int {
 	l := len(nums)
-	if l == 0 {
+	if l == 0 || target < nums[0] {
 		return 0
 	}
 	var left, right int
